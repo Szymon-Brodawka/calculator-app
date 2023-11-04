@@ -33,7 +33,7 @@ main {
 }
 
 .calculator {
-    background-color: rgb(172, 200, 201);
+    background-color: hsl(182, 21%, 73%);
     min-width: 35ch;
     max-width: 50ch;
     padding-block: 2rem;
