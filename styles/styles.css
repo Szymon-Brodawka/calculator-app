@@ -33,7 +33,7 @@ main {
 }
 
 .calculator {
-    background-color: rgb(176, 211, 212);
+    background-color: rgb(172, 200, 201);
     min-width: 35ch;
     max-width: 50ch;
     padding-block: 2rem;
@@ -42,7 +42,7 @@ main {
     flex-direction: column;
     gap: 2rem;
     border-radius: 1rem;
-    box-shadow: 4px 4px 10px 0 hsl(0, 0%, 59%);
+    box-shadow: 4px 4px 10px 0 hsl(0, 0%, 34%);
 }
 
 .result-screen {
@@ -52,6 +52,8 @@ main {
     align-items: center;
     background-color: hsl(39, 100%, 57%);
     margin-inline: auto;
+    padding-inline: 1rem;
+    border-radius: 1rem;
 }
 
 .buttons-wrapper {
