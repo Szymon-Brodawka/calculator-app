@@ -1,0 +1,58 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../assets/fonts/roboto-bold-webfont.woff2") format("woff2"),
+    url("../assets/fonts/roboto-bold-webfont.woff") format("woff");
+    font-weight: 700;
+}
+
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../assets/fonts/roboto-regular-webfont.woff2") format("woff2"),
+    url("../assets/fonts/roboto-regular-webfont.woff") format("woff");
+    font-weight: 400;
+}
+body {
+    background-color: aliceblue;
+    font-size: 1.5rem;
+    font-family: "Roboto";
+}
+
+main {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+}
+
+.calculator {
+    background-color: rgb(176, 211, 212);
+    max-width: 100ch;
+}
+
+.result-screen {
+    width: 90%;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    background-color: rgb(252, 189, 74);
+    margin-inline: auto;
+}
+
+.buttons-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.button {
+    background-color: rgb(252, 189, 74);
+    cursor: pointer;
+}
