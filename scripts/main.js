@@ -1,100 +1,60 @@
-const calculatorInputs = [];
-const numberInputs = [];
-const operationInputs = [];
-let numberInput = "0";
 let result;
+let calculatorInput = "";
 
-const checkIfIsNumber = (input) => {
-    const numberPattern = /\d+/;
-    return numberPattern.test(input);
-}
-
-const checkIfIsOperationSign = (input) => {
-    const operationSignPattern = /(\+|\-|x|\/)/;
-    return operationSignPattern.test(input);
-}
-
-const convertNumberType = (number) => {
-    if(number.length < 2)
-        return 0;
-    
-    number = number.slice(1, number.length);
-    number.includes(".")
-        ? number = parseFloat(number)
-        : number = parseInt(number);
-    return number;
-}
-
-const showResultOnScreen = (result) => {
+const showInputOnScreen = (input) =>
+{
     const resultScreen = document.querySelector(".result-screen");
-    resultScreen.textContent = result;
+    resultScreen.textContent = input;
 };
 
-const calculate = (numberInputs, operationInputs) => {
+const calculate = (calculatorInput) =>
+{
+    return eval(calculatorInput);
 }
 
-const saveInput = (event) => {
+const removeOperandAtTheEnd = (input) =>
+{
+    const operandAtTheEndPattern = /(\+|\-|\*|\/)$/;
+    return input.replace(operandAtTheEndPattern, "");
+}
+
+const removeDuplicateOperands = (input) =>
+{
+    const duplicateAdditionOperandPattern = /\+{2,}/g;
+    const duplicateSubstractionOperandPattern = /\-{2,}/g;
+    const duplicateDivisionOperandPattern = /\/{2,}g/;
+    const duplicateMultiplicationOperandPattern = /\*{2,}/g;
+
+    input = input.replace(duplicateAdditionOperandPattern, "+");
+    input = input.replace(duplicateSubstractionOperandPattern, "-");
+    input = input.replace(duplicateDivisionOperandPattern, "/");
+    input = input.replace(duplicateMultiplicationOperandPattern, "*");
+
+    return input;
+}
+
+const saveInput = (event) =>
+{
     const clickedObject = event.target;
     if(!clickedObject.classList.contains("button"))
     {
         return;
     }
 
-    const input = clickedObject.textContent;
-    if(checkIfIsNumber(input)
-        || input === "." && !numberInput.includes(".")
-        || (input === "-" && !numberInput.includes("-") && numberInput.length < 2)
-    )
+    const inputValue = clickedObject.value;
+    if(inputValue !== "=")
     {
-        numberInput += input;
+        calculatorInput += inputValue;
+        showInputOnScreen(calculatorInput);
+        return;
     }
 
-    if(checkIfIsOperationSign(input) && numberInput.length > 2)
-    {
-        numberInputs.push(convertNumberType(numberInput));
-        operationInputs.push(input);
-        numberInput = "0";
-    }
-
-    const previousInput = operationInputs[operationInputs.length - 1];
-    if(checkIfIsOperationSign(previousInput) && input === "=")
-    {
-        numberInputs.push(convertNumberType(numberInput));
-        numberInput = "0";
-    }
-
-    if(checkIfIsNumber(previousInput) && input === "=")
-    {
-        calculate(numberInputs, operationInputs);
-        //clear all arrays
-    }
-
-    console.log(numberInputs);
-    console.log(operationInputs);
-
-    // if(checkIfIsOperationSign(input) && numberInput.length > 2)
-    // {
-    //     calculatorInputs.push(convertNumberType(numberInput));
-    //     calculatorInputs.push(input);
-    //     numberInput = "0";
-    // }
-
-    // const previousInput = calculatorInputs[calculatorInputs.length - 1];
-    // if(checkIfIsOperationSign(previousInput) && input === "=")
-    // {
-    //     calculatorInputs.push(convertNumberType(numberInput));
-    //     numberInput = "0";
-    // }
-
-    // if(checkIfIsNumber(previousInput) && input === "=")
-    // {
-    //     // calculate();
-    // }
-    
-    // console.log(calculatorInputs);
-    // console.log(numberInput);
+    calculatorInput = removeDuplicateOperands(calculatorInput);
+    calculatorInput = removeOperandAtTheEnd(calculatorInput);
+    result = calculate(calculatorInput);
+    showInputOnScreen(result);
+    calculatorInput = "";
 }
-
 
 const calculator = document.querySelector(".calculator");
 calculator.addEventListener("click", event => saveInput(event));
