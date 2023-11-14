@@ -30,6 +30,12 @@ const removeDuplicateOperands = (input) =>
     return input;
 }
 
+const removeUnnecessaryMinuses = (input) =>
+{
+    const duplicateMinusesPattern = /\-{2}/g;
+    return input.replace(duplicateMinusesPattern, "");
+}
+
 const saveInput = (event) =>
 {
     const clickedObject = event.target;
@@ -46,6 +52,7 @@ const saveInput = (event) =>
         return;
     }
 
+    calculatorInput = removeUnnecessaryMinuses(calculatorInput);
     calculatorInput = removeDuplicateOperands(calculatorInput);
     calculatorInput = removeOperandAtTheEnd(calculatorInput);
     result = calculate(calculatorInput);
