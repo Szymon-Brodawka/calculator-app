@@ -20,16 +20,13 @@ const removeOperandAtTheEnd = (input) =>
 
 const removeDuplicateOperands = (input) =>
 {
-    const duplicateAdditionOperandPattern = /\+{2,}/g;
-    const duplicateSubstractionOperandPattern = /\-{2,}/g;
-    const duplicateDivisionOperandPattern = /\/{2,}g/;
-    const duplicateMultiplicationOperandPattern = /\*{2,}/g;
-
-    input = input.replace(duplicateAdditionOperandPattern, "+");
-    input = input.replace(duplicateSubstractionOperandPattern, "-");
-    input = input.replace(duplicateDivisionOperandPattern, "/");
-    input = input.replace(duplicateMultiplicationOperandPattern, "*");
-
+    const duplicateOperands = ["+", "*", "/"];
+    duplicateOperands.forEach((duplicateOperand) =>
+        {
+            const duplicateOperandPattern = new RegExp(`\\${duplicateOperand}{2,}`, "g");
+            input = input.replace(duplicateOperandPattern, duplicateOperand);
+        }
+    );
     return input;
 }
 
