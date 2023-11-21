@@ -1,6 +1,5 @@
 let result = 0;
 let calculatorInput = "";
-
 const showInputOnScreen = (input) =>
 {
     const resultScreen = document.querySelector(".result-screen");
@@ -18,42 +17,20 @@ const removeOperandAtTheEnd = (input) =>
     return input.replace(operandAtTheEndPattern, "");
 }
 
-const hasUnallowedDuplicateOperand = (input) =>
-{
-    const notAllowedDuplicateOperands = ["+", "*", "/"];
-    notAllowedDuplicateOperands.forEach((notAllowedDuplicateOperand) =>
-        {
-            const notAllowedDuplicateOperandPattern = new RegExp(`\\${notAllowedDuplicateOperand}{2,}`);
-            if(notAllowedDuplicateOperandPattern.test(input))
-            {
-                return true;
-            }
-        }
-    );
-    return false;
-}
-
 const isOperand = (input) =>
 {
     const isOperandPattern = /(\+|\-|\*|\/)/;
     return isOperandPattern.test(input);
 }
 
-const removeUnnecessaryMinuses = (input) =>
+const hasUnallowedDuplicateOperand = (input, previousInput) =>
 {
-    const duplicateMinusesPattern = /\-{2}/g;
-    return input.replace(duplicateMinusesPattern, "");
-}
-
-const isDivisionOrMultiplicationAllowed = (input) =>
-{
-    const divisionOrMultiplicationNotAllowed = /(\*|\/|\.){1,}/;
-    if(divisionOrMultiplicationNotAllowed.test(input) && input.length < 3)
+    if(isOperand(previousInput) && isOperand(input))
     {
-        return false;
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 const isNotAllowedCharacterAtTheBeginning = (input) =>
@@ -69,23 +46,29 @@ const isPointInTheEquation = (equation) =>
 
 const handleUserInput = (userInput, equation) =>
 {
+    const previousInput = equation.slice(-1,);
     if(isNotAllowedCharacterAtTheBeginning(userInput)
         && equation.length === 0
     )
     {
-        console.log("a")
         userInput = "";
+        return userInput;
     }
 
     if(isPointInTheEquation(equation) && userInput === ".")
     {
-        console.log("b")
         userInput = "";
+        return userInput;
     }
+
+    if(isOperand(userInput) && isOperand(previousInput))
+    {
+        userInput = "";
+        return userInput;
+    }
+
     return userInput;
 }
-
-
 
 const saveInput = (event) =>
 {
@@ -97,31 +80,7 @@ const saveInput = (event) =>
     }
     
     inputValue = clickedObject.value;
-    if(isNotAllowedCharacterAtTheBeginning(inputValue)
-        && calculatorInput.length === 0
-    )
-    {
-        inputValue = "";
-    }
-
-    if(isPointInTheEquation(calculatorInput) && inputValue === ".")
-    {
-        inputValue = "";
-    }
-
-
-
-    
-    // if(!isDivisionOrMultiplicationAllowed(calculatorInput) &&
-    //     (inputValue === "/" || inputValue === "*")
-    //     ||
-    //     calculatorInput.length === 0 &&
-    //     (inputValue === "/" || inputValue === "*")
-    // )
-    // {
-    //     inputValue = "";
-    // }
-
+    inputValue = handleUserInput(inputValue, calculatorInput);
     if(inputValue !== "=")
     {
         calculatorInput += inputValue;
@@ -129,14 +88,11 @@ const saveInput = (event) =>
         return;
     }
 
-    // calculatorInput = removeUnnecessaryMinuses(calculatorInput);
-    // calculatorInput = removeDuplicateOperands(calculatorInput);
-    // calculatorInput = removeOperandAtTheEnd(calculatorInput);
+    calculatorInput = removeOperandAtTheEnd(calculatorInput);
     result = calculate(calculatorInput);
     showInputOnScreen(result);
-    calculatorInput = "";
+    calculatorInput = result.toString();
 }
-
 
 const calculator = document.querySelector(".calculator");
 calculator.addEventListener("click", event => saveInput(event));
