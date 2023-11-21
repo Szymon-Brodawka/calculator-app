@@ -80,10 +80,20 @@ const saveInputFromCalculator = (event) =>
     return inputValue;
 }
 
+const isKeyboardInputAllowed = (keyboardInput) =>
+{
+    if(!isOperand(keyboardInput) && isNaN(keyboardInput) && keyboardInput !== "=" && keyboardInput !== ".")
+    {
+        return true;
+    }
+
+    return false;
+}
+
 const saveInputFromKeyboard = (event) =>
 {
     let inputValue = event.key;
-    if(!isOperand(inputValue) && isNaN(inputValue) && inputValue !== "=" && inputValue ===".")
+    if(isKeyboardInputAllowed(inputValue))
     {
         return "";
     }
@@ -99,7 +109,7 @@ const saveInput = (event) =>
         : inputValue = saveInputFromKeyboard(event);
 
     inputValue = handleUserInput(inputValue, calculatorInput);
-    if(inputValue !== "=")
+    if(inputValue !== "=" && event.key !== "Enter")
     {
         calculatorInput += inputValue;
         showInputOnScreen(calculatorInput);
