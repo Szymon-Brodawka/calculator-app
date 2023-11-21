@@ -70,6 +70,12 @@ const handleUserInput = (userInput, equation) =>
     return userInput;
 }
 
+const showDivisionByZeroErrorMessage = () =>
+{
+    const errorMessage = "Can't divide by 0";
+    showInputOnScreen(errorMessage);
+}
+
 const saveInput = (event) =>
 {
     let inputValue = "";
@@ -90,6 +96,14 @@ const saveInput = (event) =>
 
     calculatorInput = removeOperandAtTheEnd(calculatorInput);
     result = calculate(calculatorInput);
+    if(result == "Infinity")
+    {
+        showDivisionByZeroErrorMessage();
+        result = "";
+        calculatorInput = result;
+        return;
+    }
+
     showInputOnScreen(result);
     calculatorInput = result.toString();
 }
