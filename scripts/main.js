@@ -34,6 +34,22 @@ const isPointInTheEquation = (equation) =>
     return equation.includes(".");
 }
 
+const isOperandAllowed = (userInput, previousInput) =>
+{
+    if(userInput === "-" && isOperand(previousInput))
+    {
+        return false;
+    }
+
+
+    if(isOperand(userInput) && isOperand(previousInput))
+    {
+        return true;
+    }
+
+    return false;
+}
+
 const handleUserInput = (userInput, equation) =>
 {
     const previousInput = equation.slice(-1,);
@@ -51,7 +67,7 @@ const handleUserInput = (userInput, equation) =>
         return userInput;
     }
 
-    if(isOperand(userInput) && isOperand(previousInput))
+    if(isOperandAllowed(userInput, previousInput))
     {
         userInput = "";
         return userInput;
