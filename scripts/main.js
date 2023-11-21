@@ -70,13 +70,34 @@ const saveInputFromCalculator = (event) =>
 {
     let inputValue = "";
     const clickedObject = event.target;
+    inputValue = clickedObject.value;
     const wasCalculatorButtonClicked = clickedObject.classList.contains("button");
     if(!wasCalculatorButtonClicked)
     {
-        return;
+        return "";
     }
 
-    inputValue = clickedObject.value;
+    return inputValue;
+}
+
+const saveInputFromKeyboard = (event) =>
+{
+    let inputValue = event.key;
+    if(!isOperand(inputValue) && isNaN(inputValue) && inputValue !== "=" && inputValue ===".")
+    {
+        return "";
+    }
+
+    return inputValue;
+}
+
+const saveInput = (event) =>
+{
+    let inputValue = "";
+    event.type === "click"
+        ? inputValue = saveInputFromCalculator(event)
+        : inputValue = saveInputFromKeyboard(event);
+
     inputValue = handleUserInput(inputValue, calculatorInput);
     if(inputValue !== "=")
     {
@@ -97,22 +118,6 @@ const saveInputFromCalculator = (event) =>
 
     showInputOnScreen(result);
     calculatorInput = result.toString();
-}
-
-const saveInputFromKeyboard = (event) =>
-{
-    // if(event.key)
-}
-
-const saveInput = (event) =>
-{
-    if(event.type === "click")
-    {
-        saveInputFromCalculator(event);
-        return;
-    }
-
-    saveInputFromKeyboard(event);
 }
 
 const calculator = document.querySelector(".calculator");
