@@ -76,15 +76,16 @@ const showDivisionByZeroErrorMessage = () =>
     showInputOnScreen(errorMessage);
 }
 
-const saveInput = (event) =>
+const saveInputFromCalculator = (event) =>
 {
     let inputValue = "";
     const clickedObject = event.target;
-    if(!clickedObject.classList.contains("button"))
+    const wasCalculatorButtonClicked = clickedObject.classList.contains("button");
+    if(!wasCalculatorButtonClicked)
     {
         return;
     }
-    
+
     inputValue = clickedObject.value;
     inputValue = handleUserInput(inputValue, calculatorInput);
     if(inputValue !== "=")
@@ -108,5 +109,20 @@ const saveInput = (event) =>
     calculatorInput = result.toString();
 }
 
+const saveInputFromKeyboard = () =>
+{
+
+}
+
+const saveInput = (event) =>
+{
+    if(event.type === "click")
+    {
+        saveInputFromCalculator(event);
+        return;
+    }
+}
+
 const calculator = document.querySelector(".calculator");
 calculator.addEventListener("click", event => saveInput(event));
+document.documentElement.addEventListener("keydown", event => saveInput(event));
