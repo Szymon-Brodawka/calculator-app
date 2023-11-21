@@ -23,16 +23,6 @@ const isOperand = (input) =>
     return isOperandPattern.test(input);
 }
 
-const hasUnallowedDuplicateOperand = (input, previousInput) =>
-{
-    if(isOperand(previousInput) && isOperand(input))
-    {
-        return true;
-    }
-
-    return false;
-}
-
 const isNotAllowedCharacterAtTheBeginning = (input) =>
 {
     const notAllowedCharacterPattern = /(\+|\*|\/)/;
@@ -109,9 +99,9 @@ const saveInputFromCalculator = (event) =>
     calculatorInput = result.toString();
 }
 
-const saveInputFromKeyboard = () =>
+const saveInputFromKeyboard = (event) =>
 {
-
+    // if(event.key)
 }
 
 const saveInput = (event) =>
@@ -121,6 +111,8 @@ const saveInput = (event) =>
         saveInputFromCalculator(event);
         return;
     }
+
+    saveInputFromKeyboard(event);
 }
 
 const calculator = document.querySelector(".calculator");
