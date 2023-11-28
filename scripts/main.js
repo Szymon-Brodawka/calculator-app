@@ -6,6 +6,11 @@ const showInputOnScreen = (input) =>
     resultScreen.textContent = input;
 };
 
+const clearInput = (input) =>
+{
+    return input.slice(0, -1);
+}
+
 const calculate = (calculatorInput) =>
 {
     return eval(calculatorInput);
@@ -53,6 +58,12 @@ const isOperandAllowed = (userInput, previousInput) =>
 const handleUserInput = (userInput, equation) =>
 {
     const previousInput = equation.slice(-1,);
+    if(userInput === "clear")
+    {
+        calculatorInput = clearInput(calculatorInput);
+        return "";
+    }
+
     if(isNotAllowedCharacterAtTheBeginning(userInput)
         && equation.length === 0
     )
@@ -98,7 +109,10 @@ const saveInputFromCalculator = (event) =>
 
 const isKeyboardInputAllowed = (keyboardInput) =>
 {
-    if(!isOperand(keyboardInput) && isNaN(keyboardInput) && keyboardInput !== "=" && keyboardInput !== ".")
+    if(
+        !isOperand(keyboardInput) && isNaN(keyboardInput) && keyboardInput !== "="
+        && keyboardInput !== "."
+    )
     {
         return false;
     }
@@ -109,6 +123,12 @@ const isKeyboardInputAllowed = (keyboardInput) =>
 const saveInputFromKeyboard = (event) =>
 {
     let inputValue = event.key;
+    if(inputValue === "Backspace")
+    {
+        calculatorInput = clearInput(calculatorInput);
+        return "";
+    }
+
     if(!isKeyboardInputAllowed(inputValue))
     {
         return "";
