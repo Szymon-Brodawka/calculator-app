@@ -34,25 +34,44 @@ const isNotAllowedCharacterAtTheBeginning = (input) =>
     return notAllowedCharacterPattern.test(input)
 }
 
-const isPointInTheEquation = (equation) =>
+const findLastOperandPosition = (equation) =>
 {
-    return equation.includes(".");
+    const operandPattern = /(\+|\-|\*|\/)/;
+    let index = equation.length;
+    while(index !== -1 || operandPattern.test(equation.charAt(index)))
+    {
+        index--;
+    }
+
+    return index - 1;
 }
 
-const isOperandAllowed = (userInput, previousInput) =>
+const isPointAllowed = (input, previousInput, equation) =>
 {
-    if(userInput === "-" && isOperand(previousInput))
+    const isPointNotAllowedPattern = /\.\d+/;
+    const lastOperandPosition = findLastOperandPosition(equation);
+    const equationAfterLastOperand = equation.slice(lastOperandPosition, );
+    if(previousInput === "." && input === ".")
     {
         return false;
     }
 
-
-    if(isOperand(userInput) && isOperand(previousInput))
+    if(input === "." && isPointNotAllowedPattern.test(equationAfterLastOperand))
     {
-        return true;
+        return false;
     }
 
-    return false;
+    return true;
+}
+
+const isOperandAllowed = (userInput, previousInput) =>
+{
+    if(isOperand(userInput) && isOperand(previousInput))
+    {
+        return false;
+    }
+
+    return true;
 }
 
 const handleUserInput = (userInput, equation) =>
@@ -72,13 +91,13 @@ const handleUserInput = (userInput, equation) =>
         return userInput;
     }
 
-    if(isPointInTheEquation(equation) && userInput === ".")
+    if(!isPointAllowed(userInput, previousInput, equation))
     {
         userInput = "";
         return userInput;
     }
 
-    if(isOperandAllowed(userInput, previousInput))
+    if(!isOperandAllowed(userInput, previousInput))
     {
         userInput = "";
         return userInput;
