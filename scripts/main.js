@@ -100,16 +100,16 @@ const isKeyboardInputAllowed = (keyboardInput) =>
 {
     if(!isOperand(keyboardInput) && isNaN(keyboardInput) && keyboardInput !== "=" && keyboardInput !== ".")
     {
-        return true;
+        return false;
     }
 
-    return false;
+    return true;
 }
 
 const saveInputFromKeyboard = (event) =>
 {
     let inputValue = event.key;
-    if(isKeyboardInputAllowed(inputValue))
+    if(!isKeyboardInputAllowed(inputValue))
     {
         return "";
     }
