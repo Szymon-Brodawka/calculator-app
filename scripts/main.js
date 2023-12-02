@@ -75,6 +75,18 @@ const isOperandAllowed = (userInput, previousInput) =>
     return true;
 }
 
+const addParenthesisAtTheEnd = (input) =>
+{
+    const leftParenthesisCount = countSubstringInString(input, /\(/);
+    console.log(leftParenthesisCount);
+    if(leftParenthesisCount % 2 === 1)
+    {
+        return input + ")";
+    }
+
+    return input;
+}
+
 const countSubstringInString = (string, substring) =>
 {
     const substringPattern = new RegExp(substring, "g");
@@ -227,6 +239,7 @@ const saveInput = (event) =>
     }
 
     calculatorInput = removeOperandAtTheEnd(calculatorInput);
+    calculatorInput = addParenthesisAtTheEnd(calculatorInput);
     result = calculate(calculatorInput);
     if(result == "Infinity")
     {
