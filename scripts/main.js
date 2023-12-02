@@ -31,7 +31,7 @@ const isOperand = (input) =>
 
 const isNotAllowedCharacterAtTheBeginning = (input) =>
 {
-    const notAllowedCharacterPattern = /(\+|\*|\/)/;
+    const notAllowedCharacterPattern = /(\+|\*|\/|\))/;
     return notAllowedCharacterPattern.test(input)
 }
 
@@ -75,6 +75,41 @@ const isOperandAllowed = (userInput, previousInput) =>
     return true;
 }
 
+const countSubstringInString = (string, substring) =>
+{
+    const substringPattern = new RegExp(substring, "g");
+    if(!string.match(substringPattern))
+        return 0;
+    
+    return string.match(substringPattern).length;
+}
+
+const isParenthesisAllowed = (userInput, previousInput, equation) =>
+{
+    const parenthesisPattern = /(\(|\))/;
+    if(parenthesisPattern.test(userInput) && parenthesisPattern.test(previousInput))
+    {
+        return false;
+    }
+
+    if(userInput === ")" && isOperand(previousInput))
+    {
+        return false;
+    }
+
+    if(userInput === "(" && (!isNaN(previousInput) && previousInput !== ""))
+    {
+        return false;
+    }
+
+    if(countSubstringInString(equation, /\(/) % 2 === 0 && userInput ===")")
+    {
+        return false;
+    }
+
+    return true;
+}
+
 const handleUserInput = (userInput, equation) =>
 {
     const previousInput = equation.slice(-1,);
@@ -107,6 +142,11 @@ const handleUserInput = (userInput, equation) =>
     {
         userInput = "";
         return userInput;
+    }
+
+    if(!isParenthesisAllowed(userInput, previousInput, equation))
+    {
+        userInput = "";
     }
 
     return userInput;
