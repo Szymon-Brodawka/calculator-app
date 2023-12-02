@@ -1,3 +1,4 @@
+const DIVIDE_BY_100 = "/100";
 let result = 0;
 let calculatorInput = "";
 const showInputOnScreen = (input) =>
@@ -77,6 +78,11 @@ const isOperandAllowed = (userInput, previousInput) =>
 const handleUserInput = (userInput, equation) =>
 {
     const previousInput = equation.slice(-1,);
+    if(userInput === "%")
+    { 
+        return DIVIDE_BY_100;
+    }
+
     if(userInput === "clear")
     {
         calculatorInput = clearInput(calculatorInput);
@@ -164,6 +170,15 @@ const saveInput = (event) =>
         : inputValue = saveInputFromKeyboard(event);
 
     inputValue = handleUserInput(inputValue, calculatorInput);
+    if(inputValue === DIVIDE_BY_100)
+    {
+        result = calculate(calculatorInput);
+        result /= 100;
+        showInputOnScreen(result);
+        calculatorInput = result.toString();
+        return;
+    }
+
     if(inputValue !== "=" && event.key !== "Enter")
     {
         calculatorInput += inputValue;
