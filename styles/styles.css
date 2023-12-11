@@ -46,7 +46,8 @@ main {
 }
 
 .result-screen {
-    width: 100%;
+    min-width: 35ch;
+    max-width: 35ch;
     height: 4rem;
     display: flex;
     align-items: center;
