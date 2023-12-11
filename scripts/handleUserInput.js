@@ -27,6 +27,8 @@ export const handleUserInput = (userInput, calculatorInput) =>
 
     if(userInput === "clear" || userInput === "Backspace")
     {
+        calculatorInput = clearInput(calculatorInput);
+        showInputOnScreen(calculatorInput);
         return clearInput(calculatorInput);
     }
     
