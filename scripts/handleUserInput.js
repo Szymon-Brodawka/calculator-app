@@ -14,6 +14,7 @@ const clearInput = (input) =>
 
 export const handleUserInput = (userInput, calculatorInput) =>
 {
+    const MAX_LENGTH = 33;
     if(!isInputAllowed(userInput, calculatorInput))
     {
         return calculatorInput;
@@ -32,6 +33,14 @@ export const handleUserInput = (userInput, calculatorInput) =>
         return clearInput(calculatorInput);
     }
     
+    if(userInput === "=" || userInput === "Enter" && calculatorInput.length > MAX_LENGTH)
+    {
+        calculatorInput = fixEquation(calculatorInput);
+        calculatorInput = calculate(calculatorInput).toString();
+        showInputOnScreen(calculatorInput);
+        
+        return calculatorInput;
+    }
     if(userInput === "=" || userInput === "Enter")
     {
         calculatorInput = fixEquation(calculatorInput);
