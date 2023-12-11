@@ -2,7 +2,7 @@ import { isOperand } from "./utility.js";
 
 const isKeyboardInputAllowed = (keyboardInput) =>
 {
-    if(keyboardInput === "Backspace")
+    if(keyboardInput === "Backspace" || keyboardInput === "Enter")
     {
         return true;
     }
