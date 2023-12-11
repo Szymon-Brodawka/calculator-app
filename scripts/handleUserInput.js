@@ -30,18 +30,24 @@ export const handleUserInput = (userInput, calculatorInput) =>
         return clearInput(calculatorInput);
     }
 
-    if(!isFinite(calculatorInput)
-        && userInput === "=" || userInput === "Enter"
-    )
-    {
-        showDivisionByZeroErrorMessage();
-        return "";
-    }
+    // if(!isFinite(calculate(calculatorInput))
+    //     && (userInput === "=" || userInput === "Enter")
+    // )
+    // {
+    //     showDivisionByZeroErrorMessage();
+    //     return "";
+    // }
 
     if(userInput === "=" || userInput === "Enter")
     {
         calculatorInput = fixEquation(calculatorInput);
         calculatorInput = calculate(calculatorInput).toString();
+        if(!isFinite(calculatorInput))
+        {
+            showDivisionByZeroErrorMessage();
+            return "";
+        }
+
         showInputOnScreen(calculatorInput);
         return calculatorInput;
     }
