@@ -9,6 +9,8 @@ const calculate = (calculatorInput) =>
 
 const clearInput = (input) =>
 {
+    console.log("Fire")
+    console.log(input.length);
     return input.slice(0, -1);
 }
 
@@ -30,7 +32,7 @@ export const handleUserInput = (userInput, calculatorInput) =>
     {
         calculatorInput = clearInput(calculatorInput);
         showInputOnScreen(calculatorInput);
-        return clearInput(calculatorInput);
+        return calculatorInput;
     }
     
     if(userInput === "=" || userInput === "Enter" && calculatorInput.length > MAX_LENGTH)
