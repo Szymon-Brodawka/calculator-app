@@ -26,29 +26,3 @@ export const isOperand = (input) =>
     const isOperandPattern = /(\+|\-|\*|\/)/;
     return isOperandPattern.test(input);
 }
-
-const removeOperandAtTheEnd = (input) =>
-{
-    const operandAtTheEndPattern = /(\+|\-|\*|\/)$/;
-    return input.replace(operandAtTheEndPattern, "");
-}
-
-const addParenthesisAtTheEnd = (input) =>
-{
-    const leftParenthesisCount = countSubstringInString(input, /\(/);
-
-    if(leftParenthesisCount % 2 === 1)
-    {
-        return input + ")";
-    }
-
-    return input;
-}
-
-export const fixEquation = (input) =>
-{
-    input = removeOperandAtTheEnd(input);
-    input = addParenthesisAtTheEnd(input);
-
-    return input;
-}
