@@ -1,9 +1,15 @@
 import { handleErrors } from "./handleErrors.js";
 import { isInputAllowed } from "./isInputAllowed.js";
 import { showInputOnScreen } from "./showCalculatorInput.js";
+import { countSubstringInString } from "./utility.js";
 
 const calculate = (calculatorInput) =>
 {
+    const countOfNumbers = countSubstringInString(calculatorInput, /[0-9]/);
+    if(countOfNumbers < 1)
+    {
+        return "";
+    }
     return eval(calculatorInput);
 }
 
@@ -14,7 +20,6 @@ const clearInput = (input) =>
 
 export const handleUserInput = (userInput, calculatorInput) =>
 {
-    const MAX_LENGTH = 33;
     if(!isInputAllowed(userInput, calculatorInput))
     {
         return calculatorInput;
@@ -23,7 +28,7 @@ export const handleUserInput = (userInput, calculatorInput) =>
     if(userInput === "%" && calculatorInput.length > 0)
     {
         showInputOnScreen(`${calculatorInput}/100`);
-        return `${calculatorInput} / 100`;
+        return `${calculatorInput}/100`;
     }
 
     if(userInput === "clear" || userInput === "Backspace")
@@ -32,20 +37,12 @@ export const handleUserInput = (userInput, calculatorInput) =>
         showInputOnScreen(calculatorInput);
         return calculatorInput;
     }
-    
-    if(userInput === "=" || userInput === "Enter" || calculatorInput.length > MAX_LENGTH)
-    {
-        calculatorInput = calculate(calculatorInput).toString();
-        showInputOnScreen(calculatorInput);
-        
-        return calculatorInput;
-    }
 
     if(userInput === "=" || userInput === "Enter")
     {
-        const hastErrorOccured = handleErrors(calculatorInput);
+        const hasErrorOccured = handleErrors(calculatorInput);
 
-        if(hastErrorOccured)
+        if(hasErrorOccured)
         {
             return "";
         }
