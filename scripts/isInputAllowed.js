@@ -24,6 +24,17 @@ const isNotAllowedCharacterAtTheBeginning = (input) =>
     return notAllowedCharacterPattern.test(input);
 }
 
+const isParenthesisAllowed = (userInput, previousInput) =>
+{
+    const parenthesisPattern = /(\(|\))/
+    if(parenthesisPattern.test(userInput) && previousInput === ".")
+    {
+        return false;
+    }
+
+    return true;
+}
+
 const isOperandAllowed = (userInput, previousInput) =>
 {
     if(isOperand(userInput) && isOperand(previousInput))
@@ -50,6 +61,11 @@ export const isInputAllowed = (userInput, equation) =>
     }
 
     if(!isOperandAllowed(userInput, previousInput))
+    {
+        return false;
+    }
+
+    if(!isParenthesisAllowed(userInput, previousInput))
     {
         return false;
     }
