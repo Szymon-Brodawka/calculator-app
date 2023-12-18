@@ -45,6 +45,21 @@ const isOperandAllowed = (userInput, previousInput) =>
     return true;
 }
 
+const isPercentAllowed = (userInput, previousInput, equation) =>
+{
+    if(userInput === "%" && equation.length === 0)
+    { 
+        return false;
+    }
+
+    if(userInput === "%" && isNaN(previousInput))
+    {
+        return false;
+    }
+
+    return true;
+}
+
 export const isInputAllowed = (userInput, equation) =>
 {
     const previousInput = equation.slice(-1,);
@@ -69,8 +84,8 @@ export const isInputAllowed = (userInput, equation) =>
     {
         return false;
     }
-    
-    if(userInput === "%" && equation.length === 0)
+
+    if(!isPercentAllowed(userInput, previousInput, equation))
     { 
         return false;
     }
