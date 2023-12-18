@@ -1,6 +1,7 @@
+import { handleErrors } from "./handleErrors.js";
 import { isInputAllowed } from "./isInputAllowed.js";
-import { showDivisionByZeroErrorMessage, showInputOnScreen } from "./showCalculatorInput.js";
-import { fixEquation } from "./utility.js";
+import { showErrorMessage, showInputOnScreen } from "./showCalculatorInput.js";
+import { countSubstringInString, fixEquation } from "./utility.js";
 
 const calculate = (calculatorInput) =>
 {
@@ -9,8 +10,6 @@ const calculate = (calculatorInput) =>
 
 const clearInput = (input) =>
 {
-    console.log("Fire")
-    console.log(input.length);
     return input.slice(0, -1);
 }
 
@@ -24,7 +23,7 @@ export const handleUserInput = (userInput, calculatorInput) =>
 
     if(userInput === "%" && calculatorInput.length > 0)
     {
-        showInputOnScreen(`${calculatorInput} / 100`);
+        showInputOnScreen(`${calculatorInput}/100`);
         return `${calculatorInput} / 100`;
     }
 
@@ -35,7 +34,7 @@ export const handleUserInput = (userInput, calculatorInput) =>
         return calculatorInput;
     }
     
-    if(userInput === "=" || userInput === "Enter" && calculatorInput.length > MAX_LENGTH)
+    if(userInput === "=" || userInput === "Enter" || calculatorInput.length > MAX_LENGTH)
     {
         calculatorInput = fixEquation(calculatorInput);
         calculatorInput = calculate(calculatorInput).toString();
@@ -43,16 +42,16 @@ export const handleUserInput = (userInput, calculatorInput) =>
         
         return calculatorInput;
     }
+
     if(userInput === "=" || userInput === "Enter")
     {
-        calculatorInput = fixEquation(calculatorInput);
-        calculatorInput = calculate(calculatorInput).toString();
-        if(!isFinite(calculatorInput))
+        const hastErrorOccured = handleErrors(calculatorInput);
+        if(hastErrorOccured)
         {
-            showDivisionByZeroErrorMessage();
-            return "";
+            return;
         }
 
+        calculatorInput = calculate(calculatorInput).toString();
         showInputOnScreen(calculatorInput);
         return calculatorInput;
     }

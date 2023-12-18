@@ -13,8 +13,7 @@ export const showInputOnScreen = (input) =>
     resultScreen.textContent = input;
 }
 
-export const showDivisionByZeroErrorMessage = () =>
+export const showErrorMessage = (errorMessage) =>
 {
-    const errorMessage = "Can't divide by 0";
     showInputOnScreen(errorMessage);
 }
