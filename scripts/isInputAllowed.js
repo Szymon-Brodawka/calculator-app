@@ -1,30 +1,4 @@
-import { countSubstringInString, findLastOperandPosition, isOperand } from "./utility.js";
-
-const isParenthesisAllowed = (userInput, previousInput, equation) =>
-{
-    const parenthesisPattern = /(\(|\))/;
-    if(parenthesisPattern.test(userInput) && parenthesisPattern.test(previousInput))
-    {
-        return false;
-    }
-
-    if(userInput === ")" && isOperand(previousInput))
-    {
-        return false;
-    }
-
-    if(userInput === "(" && (!isNaN(previousInput) && previousInput !== ""))
-    {
-        return false;
-    }
-
-    if(countSubstringInString(equation, /\(/) % 2 === 0 && userInput ===")")
-    {
-        return false;
-    }
-
-    return true;
-}
+import { findLastOperandPosition, isOperand } from "./utility.js";
 
 const isPointAllowed = (input, previousInput, equation) =>
 {
@@ -76,11 +50,6 @@ export const isInputAllowed = (userInput, equation) =>
     }
 
     if(!isOperandAllowed(userInput, previousInput))
-    {
-        return false;
-    }
-
-    if(!isParenthesisAllowed(userInput, previousInput, equation))
     {
         return false;
     }
