@@ -5,14 +5,22 @@ const areParenthesisMatched = (equation) =>
 {
     const leftParenthesisCount = countSubstringInString(equation, /\(/);
     const rightParenthesisCount = countSubstringInString(equation, /\)/);
+    const areParenthesisMatched = leftParenthesisCount === rightParenthesisCount
+    ? true : false;
 
-    leftParenthesisCount === rightParenthesisCount ? true : false;
+    return areParenthesisMatched;
 }
 
 const isOperandLast = (equation) =>
 {
     const lastCharacter = equation.slice(-1,);
-    isOperand(lastCharacter) ? true : false;
+    return isOperand(lastCharacter) ? true : false;
+}
+
+const isDivisionByZeroInEquation = (equation) =>
+{
+    return countSubstringInString(equation, /\/0/) > 0
+    ? true : false;    
 }
 
 export const handleErrors = (equation) =>
@@ -28,6 +36,13 @@ export const handleErrors = (equation) =>
     if(isOperandLast(equation))
     {
         errorMessage = "Operand can't be last.";
+        showErrorMessage(errorMessage);
+        return hasErrorOccured;
+    }
+
+    if(isDivisionByZeroInEquation(equation))
+    {
+        errorMessage = "Can't divide by 0.";
         showErrorMessage(errorMessage);
         return hasErrorOccured;
     }
