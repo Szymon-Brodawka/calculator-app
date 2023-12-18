@@ -1,7 +1,6 @@
 import { handleErrors } from "./handleErrors.js";
 import { isInputAllowed } from "./isInputAllowed.js";
-import { showErrorMessage, showInputOnScreen } from "./showCalculatorInput.js";
-import { countSubstringInString, fixEquation } from "./utility.js";
+import { showInputOnScreen } from "./showCalculatorInput.js";
 
 const calculate = (calculatorInput) =>
 {
@@ -36,7 +35,6 @@ export const handleUserInput = (userInput, calculatorInput) =>
     
     if(userInput === "=" || userInput === "Enter" || calculatorInput.length > MAX_LENGTH)
     {
-        calculatorInput = fixEquation(calculatorInput);
         calculatorInput = calculate(calculatorInput).toString();
         showInputOnScreen(calculatorInput);
         
@@ -46,9 +44,10 @@ export const handleUserInput = (userInput, calculatorInput) =>
     if(userInput === "=" || userInput === "Enter")
     {
         const hastErrorOccured = handleErrors(calculatorInput);
+
         if(hastErrorOccured)
         {
-            return;
+            return "";
         }
 
         calculatorInput = calculate(calculatorInput).toString();
